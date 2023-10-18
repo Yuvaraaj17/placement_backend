@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        Enter a text<input type="text" name="" id=""><br><br>
+        Enter a number<input type="number"><br><br>
+        <input type="submit" value="submit">
+    </form>
+</body>
+<script>
+    const form=document.querySelector("form")
+    const formdata=new FormData(form)
+
+    fetch("http://localhost:8000/page",{method:"POST",body:formdata}).then((response)=>{
+        console.log(response)
+        if(response.ok){
+
+        }
+
+    })
+</script>
+</html>

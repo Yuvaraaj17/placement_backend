@@ -1,0 +1,39 @@
+<html>
+  <body>
+    <form>
+      Enter a question: <input type="text" name="question_text" /><br /><br />
+      Enter choice 1: <input type="text" name="choice_one" /><br /><br />
+      Enter choice 2: <input type="text" name="choice_two" /><br /><br />
+      Enter choice 3: <input type="text" name="choice_three" /><br /><br />
+      Enter choice 4: <input type="text" name="choice_four" /><br /><br />
+      Correct option: <input type="text" name="correct_choice" /><br /><br />
+      <input type="button" value="submit" onclick="formsubmit()" />
+      <input type="reset" value="reset" />
+    </form>
+    <div name="display section">
+      <div>Question here</div>
+      <div>option 1</div>
+      <div>option 2</div>
+      <div>option 3</div>
+      <div>option 4</div>
+    </div>
+  </body>
+  <script>
+    function formsubmit() {
+      const form = document.querySelector("form");
+      const formData = new FormData(form);
+      var object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+      var json = JSON.stringify(object);
+      fetch("http://localhost:8000/questions", {
+        method: "POST",
+        body: json,
+        headers: { "Content-Type": "application/json" },
+      }).then((response) => {
+        console.log(response);
+      });
+    }
+  </script>
+</html>
