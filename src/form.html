@@ -59,7 +59,7 @@
     }
 
     function getvalues() {
-      const d = document.querySelector("div");
+      const di = document.querySelector("div");
       fetch("http://localhost:8000/view_questions", {
         method: "GET",
       })
@@ -68,7 +68,14 @@
         })
         .then((data) => {
           
-          data.forEach((d) => console.log(d.question_text))
+          data.forEach((d) => 
+          di.insertAdjacentHTML("beforeend",
+          `<div>${d.question_text}</div>
+          <input type='radio' value=${d.choice_one}>${d.choice_one}<br>
+          <input type='radio' value=${d.choice_two}>${d.choice_two}<br>
+          <input type='radio' value=${d.choice_three}>${d.choice_three}<br>
+          <input type='radio' value=${d.choice_four}>${d.choice_four}<br>`)
+          )
         });
     }
   </script>
