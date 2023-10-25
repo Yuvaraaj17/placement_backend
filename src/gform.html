@@ -1,0 +1,40 @@
+<html>
+  <div>
+    <form>Question: <input type="text" name="question" /></form>
+  </div>
+
+  <input type="button" value="add question" onclick="add_question()" />
+  <input type="button" value="submit" onclick="formsubmit()" />
+  <script>
+    function add_question() {
+      const parent = document.querySelector("div");
+      parent.insertAdjacentHTML(
+        "beforeend",
+        "<form>Question: <input type='text' name='question'></form>"
+      );
+    }
+    var mainobj = [];
+    function formsubmit() {
+      var i = 0;
+      const form = document.querySelectorAll("form");
+      form.forEach(function contstruct(form) {
+        const formData = new FormData(form);
+        var object = {};
+        formData.forEach(function (value, key) {
+          object[key] = value;
+        });
+        mainobj[i] = object;
+        i++;
+      });
+      var js = JSON.stringify(mainobj);
+      console.log(js);
+      fetch("http://localhost:8000/questions", {
+        method: "POST",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      }).then((response) => {
+        console.log(response);
+      });
+    }
+  </script>
+</html>

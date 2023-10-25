@@ -11,3 +11,6 @@ class QuestionBase(BaseModel):
     choice_three: str
     choice_four: str
     correct_choice: str
+
+class QuestionSet(BaseModel):
+    qset: List[QuestionBase]
