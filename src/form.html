@@ -15,7 +15,7 @@
   <input type="reset" value="reset" />
   <input type="button" value="View data" onclick="getvalues()" />
   <div>
-
+    <input type="button" value="Submit test" onclick="validate()" />
   </div>
   <script>
     function add_question() {
@@ -48,13 +48,12 @@
         i++;
       });
       var newmain = JSON.stringify({ qset: mainobj });
-      console.log(newmain);
       fetch("http://localhost:8000/questions", {
         method: "POST",
         body: newmain,
         headers: { "Content-Type": "application/json" },
       }).then((response) => {
-        console.log(response);
+        // console.log(response);
       });
     }
 
@@ -67,16 +66,40 @@
           return response.json();
         })
         .then((data) => {
-          
-          data.forEach((d) => 
-          di.insertAdjacentHTML("beforeend",
-          `<div>${d.question_text}</div>
-          <input type='radio' value=${d.choice_one}>${d.choice_one}<br>
-          <input type='radio' value=${d.choice_two}>${d.choice_two}<br>
-          <input type='radio' value=${d.choice_three}>${d.choice_three}<br>
-          <input type='radio' value=${d.choice_four}>${d.choice_four}<br>`)
-          )
+          data.forEach((d) => {
+            console.log(d);
+            di.insertAdjacentHTML(
+              "beforeend",
+              `
+          <p id="${d.id}">${d.question_text}</p>
+          <input type='radio' name='${d.id}' value=${d.choice_one}>${d.choice_one}<br>
+          <input type='radio' name='${d.id}' value=${d.choice_two}>${d.choice_two}<br>
+          <input type='radio' name='${d.id}' value=${d.choice_three}>${d.choice_three}<br>
+          <input type='radio' name='${d.id}' value=${d.choice_four}>${d.choice_four}<br>
+          `
+            );
+          });
         });
+    }
+
+    function validate() {
+      var answers = {};
+      const op = document.querySelectorAll("input[type='radio']");
+      op.forEach((answer) => {
+        if (answer.checked == true) {
+          answers[answer.name] = answer.value;
+        }
+      });
+      const answersjson = JSON.stringify(answers);
+      fetch("http://localhost:8000/evaluate", {
+        method: "POST",
+        body: answersjson,
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((score) => console.log("Score:", score));
     }
   </script>
 </html>

@@ -47,4 +47,17 @@ async def create_question(questionset: QuestionSet,db:db_dependency):
 
 @app.get("/view_questions")
 def view_question(db: db_dependency,skip: int=0 ,limit: int=0):
-   return db.query(Questions).all()
+   res=db.query(Questions).all()
+   for i in res:
+       yield i
+
+@app.post("/evaluate")
+async def evaluate(db: db_dependency, answers: dict ):
+    score=0
+    for i in answers:
+        db_answer=db.query(Questions.correct_choice).where(Questions.id == int(i))
+        r=db.scalar(db_answer)
+        if answers[i] == r:
+            score+=1
+    return score
+        
