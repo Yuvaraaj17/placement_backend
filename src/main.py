@@ -2,8 +2,8 @@ from typing import List, Annotated
 from fastapi import Depends, FastAPI
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Questions,Base
-from schemas import QuestionBase, QuestionSet
+from models import Questions,Base,Users
+from schemas import QuestionBase, QuestionSet,UsersBase
 from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -61,3 +61,8 @@ async def evaluate(db: db_dependency, answers: dict ):
             score+=1
     return score
         
+@app.post("/login")
+async def authenticate(user_info: UsersBase,db: db_dependency):
+    db_password=db.query(Users.password).where(Users.user_id==user_info.user_id)
+    if user_info.password == db_password:
+        return True

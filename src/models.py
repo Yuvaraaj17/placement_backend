@@ -1,5 +1,5 @@
-from sqlalchemy import Boolean, Column, Integer, String,ForeignKey
-from database import Base,engine
+from sqlalchemy import Column, Integer, String
+from database import Base
 
 class Questions(Base):
     __tablename__ = "questions"
@@ -11,5 +11,12 @@ class Questions(Base):
     choice_three=Column(String)
     choice_four=Column(String)
     correct_choice=Column(String)
+
+class Users(Base):
+    __tablename__ = "users"
+    user_id=Column(Integer,primary_key=True)
+    username=Column(String)
+    password=Column(String)
+    usertype=Column(String)
 
 

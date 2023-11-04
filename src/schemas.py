@@ -14,3 +14,7 @@ class QuestionBase(BaseModel):
 
 class QuestionSet(BaseModel):
     qset: List[QuestionBase]
+
+class UsersBase(BaseModel):
+    user_id: int
+    password: str
