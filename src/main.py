@@ -64,5 +64,9 @@ async def evaluate(db: db_dependency, answers: dict ):
 @app.post("/login")
 async def authenticate(user_info: UsersBase,db: db_dependency):
     db_password=db.query(Users.password).where(Users.user_id==user_info.user_id)
-    if user_info.password == db_password:
+    res=db.scalar(db_password)
+    if user_info.password == res:
         return True
+    else:
+        
+        return False

@@ -1,25 +1,28 @@
 <html>
   <body>
-    <form>
-      Enter a question no: <input type="text" name="id" /><br /><br />
-      Enter a question: <input type="text" name="question_text" /><br /><br />
-      Enter choice 1: <input type="text" name="choice_one" /><br /><br />
-      Enter choice 2: <input type="text" name="choice_two" /><br /><br />
-      Enter choice 3: <input type="text" name="choice_three" /><br /><br />
-      Enter choice 4: <input type="text" name="choice_four" /><br /><br />
-      Correct option: <input type="text" name="correct_choice" /><br /><br />
-    </form>
-  </body>
-  <input type="button" value="submit" onclick="formsubmit()" />
+    <div id="body">
+      <form>
+        Enter a question no: <input type="text" name="id" /><br /><br />
+        Enter a question: <input type="text" name="question_text" /><br /><br />
+        Enter choice 1: <input type="text" name="choice_one" /><br /><br />
+        Enter choice 2: <input type="text" name="choice_two" /><br /><br />
+        Enter choice 3: <input type="text" name="choice_three" /><br /><br />
+        Enter choice 4: <input type="text" name="choice_four" /><br /><br />
+        Correct option: <input type="text" name="correct_choice" /><br /><br />
+      </form>
+    </div>
+    <input type="button" value="submit" onclick="formsubmit()" />
   <input type="button" value="add question" onclick="add_question()" />
-  <input type="reset" value="reset" />
+  <input type="reset" value="reset" onclick="reset()"/>
   <input type="button" value="View data" onclick="getvalues()" />
   <div>
     <input type="button" value="Submit test" onclick="validate()" />
   </div>
+  </body>
+  
   <script>
     function add_question() {
-      const parent = document.querySelector("body");
+      const parent = document.querySelector("div[id='body']");
       parent.insertAdjacentHTML(
         "beforeend",
         `<form>
@@ -100,6 +103,11 @@
           return response.json();
         })
         .then((score) => console.log("Score:", score));
+    }
+
+    function reset(){
+      const input=document.querySelectorAll("input[type='text']")
+      input.forEach((ip_ele)=> ip_ele.value='')
     }
   </script>
 </html>
