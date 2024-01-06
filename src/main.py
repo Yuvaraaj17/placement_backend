@@ -36,9 +36,9 @@ db_dependency=Annotated[Session,Depends(get_db)]
 @app.post("/questions")
 async def create_question(questionset: QuestionSet,db:db_dependency):
     for i in questionset.qset:
-        print(i.question_text)
-        db_question = Questions(id=i.id,question_text=i.question_text,choice_one=i.choice_one,choice_two=i.choice_two,choice_three=i.choice_three,choice_four=i.choice_four,correct_choice=i.correct_choice)
-        print(db_question)
+        # print(i.question_text)
+        db_question = Questions(id=i.id,question_text=i.question_text,choice_one=i.choice_one,choice_two=i.choice_two,choice_three=i.choice_three,choice_four=i.choice_four,correct_choice=i.correct_choice,topic=i.topic)
+        # print(db_question)
         db.add(db_question)
         db.commit()
 
@@ -46,10 +46,10 @@ async def create_question(questionset: QuestionSet,db:db_dependency):
 
 
 @app.get("/view_questions")
-def view_question(db: db_dependency,skip: int=0 ,limit: int=0):
-   res=db.query(Questions).all()
-   for i in res:
-       yield i
+def view_question(db: db_dependency,topic: str,skip:int=0,limit:int=0):
+   print("request came")
+   res=db.query(Questions).where(Questions.topic==topic).offset(skip).limit(limit=limit).all()
+   return res
 
 @app.post("/evaluate")
 async def evaluate(db: db_dependency, answers: dict ):

@@ -11,6 +11,7 @@ class Questions(Base):
     choice_three=Column(String)
     choice_four=Column(String)
     correct_choice=Column(String)
+    topic=Column(String)
 
 class Users(Base):
     __tablename__ = "users"
